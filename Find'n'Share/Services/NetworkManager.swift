@@ -15,7 +15,10 @@ enum fetchErrors: Error {
 class NetworkManager {
     static let shared = NetworkManager()
     
-    func fetchLinksWith(query: String, completion: @escaping (Result<[URL], Error>) -> Void) {
+    func fetchLinksWith(
+        query: String,
+        completion: @escaping (Result<[URL], Error>) -> Void
+    ) {
         let url = urlSerpapi + query + serpapiKey
         guard let supplementedURL = url.addingPercentEncoding(
             withAllowedCharacters: .urlQueryAllowed
@@ -31,8 +34,10 @@ class NetworkManager {
                         completion(.failure(fetchErrors.missingData))
                         return
                     }
-                    let json = try JSONDecoder().decode(PictureModel.self, from: data)
-                    let linksToPictures: [URL] = json.imagesResults.compactMap { image in
+                    let json = try JSONDecoder()
+                        .decode(PictureModel.self, from: data)
+                    let linksToPictures: [URL] = json.imagesResults
+                        .compactMap { image in
                         if let  url = URL(string: image.original) {
                             return url
                         }
