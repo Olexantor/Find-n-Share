@@ -56,9 +56,8 @@ final class MainScreenViewController: UIViewController {
         setupCollectionView()
         viewModel?.refsOnPictures.bind { [weak self] (_) in
             self?.collectionView.reloadData()
+            self?.activityIndicator.stopAnimating()
         }
-        nukeLoadingOptions()
-        
     }
     
     private func setupActivityIndicator() {
@@ -131,21 +130,12 @@ extension MainScreenViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: MainScreenCell.identifier, for: indexPath
         ) as? MainScreenCell
-        guard let collViewCell = cell, let viewModel = viewModel else {
+        guard let collectionViewCell = cell, let viewModel = viewModel else {
             return UICollectionViewCell()
         }
-        activityIndicator.stopAnimating()
-        let url = viewModel.refsOnPictures.value[indexPath.item]
-        var resizedImageProcessors: [ImageProcessing] {
-            let imageSize = CGSize(width: widthOfItem, height: widthOfItem)
-            return [ImageProcessors.Resize(size: imageSize, contentMode: .aspectFit)]
-        }
-        let request = ImageRequest(
-            url: url,
-            processors: resizedImageProcessors
-        )
-        Nuke.loadImage(with: request, into: collViewCell.imageView)
-        return collViewCell
+        let cellViewModel = viewModel.cellViewModel(forIndexPath: indexPath)
+        collectionViewCell.viewModel = cellViewModel
+        return collectionViewCell
     }
 }
 
@@ -196,25 +186,7 @@ extension MainScreenViewController: UICollectionViewDelegate {
 extension MainScreenViewController: UISearchBarDelegate {
     private func searchBarButtonClicked(_ searchBar: UISearchBar) {
         activityIndicator.startAnimating()
-        guard let textField = searchBar.text, !textField.isEmpty, var viewModel = viewModel else { return }
-        viewModel.searchQuery = textField
+        guard let textField = searchBar.text, !textField.isEmpty, let viewModel = viewModel else { return }
+        viewModel.fetchRefsOnPicturesWith(request: textField)
     }
-}
-
-// MARK: - Nuke presets
-
-extension MainScreenViewController {
-   
-   private func nukeLoadingOptions() {
-       let contentModes = ImageLoadingOptions.ContentModes(
-           success: .scaleAspectFit,
-           failure: .scaleAspectFit,
-           placeholder: .scaleAspectFit
-       )
-       
-       ImageLoadingOptions.shared.contentModes = contentModes
-       ImageLoadingOptions.shared.placeholder = UIImage(systemName: "timer")
-       ImageLoadingOptions.shared.failureImage = UIImage(systemName: "clear")
-       ImageLoadingOptions.shared.transition = .fadeIn(duration: 0.5)
-   }
 }

@@ -10,12 +10,6 @@ import Foundation
 final class MainScreenViewModel: MainScreenViewModelType {
     var refsOnPictures: Box<[URL]> = Box([])
     
-    var searchQuery: String? {
-        didSet {
-            fetchRefsOnPicturesWith(request: searchQuery ?? "")
-        }
-    }
-    
     func numberOfItems() -> Int {
         refsOnPictures.value.count
         }
@@ -30,6 +24,11 @@ final class MainScreenViewModel: MainScreenViewModelType {
                 print(error)
             }
         }
+    }
+    
+    func cellViewModel(forIndexPath indexPath: IndexPath) -> MainScreenCellViewModelType? {
+        let url = refsOnPictures.value[indexPath.item]
+        return MainScreenCellViewModel(urlOfPicture: url)
     }
     
     func selectRow(atIndexPath indexPath: IndexPath) {
