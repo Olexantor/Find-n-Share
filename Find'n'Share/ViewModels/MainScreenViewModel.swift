@@ -9,6 +9,7 @@ import Foundation
 
 final class MainScreenViewModel: MainScreenViewModelType {
     var refsOnPictures: Box<[URL]> = Box([])
+    var titlesOfPictures = [String]()
     
     func numberOfItems() -> Int {
         refsOnPictures.value.count
@@ -18,8 +19,9 @@ final class MainScreenViewModel: MainScreenViewModelType {
         NetworkManager.shared.fetchLinksWith(query: request) { result in
             switch result {
                 
-            case .success(let urls):
-                self.refsOnPictures.value = urls
+            case .success(let picture):
+                self.refsOnPictures.value = picture.refsOnPictures
+                self.titlesOfPictures = picture.titlesOfPictures
             case .failure(let error):
                 print(error)
             }
