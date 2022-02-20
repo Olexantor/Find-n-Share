@@ -10,6 +10,7 @@ import Foundation
 final class MainScreenViewModel: MainScreenViewModelType {
     var refsOnPictures: Box<[URL]> = Box([])
     var titlesOfPictures = [String]()
+    private var selectedIndexPath: IndexPath?
     
     func numberOfItems() -> Int {
         refsOnPictures.value.count
@@ -34,6 +35,14 @@ final class MainScreenViewModel: MainScreenViewModelType {
     }
     
     func selectRow(atIndexPath indexPath: IndexPath) {
-        
+        self.selectedIndexPath = indexPath
+    }
+    
+    func viewModelForSelectedRow() -> DetailedViewModelType? {
+        guard let selectedIndexPath = selectedIndexPath else { return nil }
+        return DetailedViewModel(
+            refOnPicture: refsOnPictures.value[selectedIndexPath.item],
+            titleOfPicture: titlesOfPictures[selectedIndexPath.item]
+        )
     }
 }
