@@ -10,6 +10,8 @@ import Foundation
 protocol MainScreenViewModelType {
     var refsOnPictures: Box<[URL]> { get }
     
+    var titlesOfPictures: [String] { get }
+    
     func fetchRefsOnPicturesWith(request: String)
     
     func numberOfItems() -> Int

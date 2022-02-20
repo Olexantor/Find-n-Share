@@ -17,7 +17,7 @@ class NetworkManager {
     
     func fetchLinksWith(
         query: String,
-        completion: @escaping (Result<[URL], Error>) -> Void
+        completion: @escaping (Result<Picture, Error>) -> Void
     ) {
         let url = urlSerpapi + query + serpapiKey
         guard let supplementedURL = url.addingPercentEncoding(
@@ -36,14 +36,15 @@ class NetworkManager {
                     }
                     let json = try JSONDecoder()
                         .decode(PictureModel.self, from: data)
-                    let linksToPictures: [URL] = json.imagesResults
-                        .compactMap { image in
-                        if let  url = URL(string: image.original) {
-                            return url
-                        }
-                        return nil
-                    }
-                    completion(.success(linksToPictures))
+                    guard let picture = Picture(data: json) else { return }
+//                    let imagesResults = json.imagesResults
+//                        .compactMap { image in
+//                        if let  url = URL(string: image.original) {
+//                            return url
+//                        }
+//                        return nil
+//                    }
+                    completion(.success(picture))
                 }
                 catch {
                     completion(.failure(error))
