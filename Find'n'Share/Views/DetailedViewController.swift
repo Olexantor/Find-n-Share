@@ -4,14 +4,13 @@
 //
 //  Created by Александр on 20.02.2022.
 //
-
 import Foundation
 import Nuke
 import SnapKit
 import UIKit
 
 final class DetailedViewController: UIViewController {
-    let viewModel: DetailedViewModelType
+    private let viewModel: DetailedViewModelType
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -63,9 +62,8 @@ final class DetailedViewController: UIViewController {
     
     private func setupLargePictureImageView() {
         largePictureImageView.snp.makeConstraints { make in
-            make.centerY.centerX.equalToSuperview()
-            make.width.equalTo(view.frame.width)
-            make.height.equalTo(view.frame.width)
+            make.center.equalToSuperview()
+            make.width.height.equalTo(view.frame.width)
         }
     }
     
@@ -85,8 +83,8 @@ final class DetailedViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
     }
-
-// MARK: Nuke presets
+    
+    // MARK: Nuke presets
     
     private func getPicture(with url: URL) {
         let contentModes = ImageLoadingOptions.ContentModes(
@@ -104,8 +102,8 @@ final class DetailedViewController: UIViewController {
         loadImage(with: url, options: options, into: largePictureImageView)
     }
     
-// MARK: Setup share method
-
+    // MARK: Setup share method
+    
     @objc private func presentShareSheet() {
         guard let image = largePictureImageView.image else { return }
         let shareSheetVC = UIActivityViewController(
@@ -116,5 +114,3 @@ final class DetailedViewController: UIViewController {
     }
     
 }
-
-

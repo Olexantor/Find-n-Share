@@ -8,7 +8,7 @@ import Foundation
 
 final class MainScreenCellViewModel: MainScreenCellViewModelType {
     var urlOfPicture: URL
-
+    
     init(urlOfPicture: URL) {
         self.urlOfPicture = urlOfPicture
     }

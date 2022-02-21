@@ -4,11 +4,11 @@
 //
 //  Created by Александр on 19.02.2022.
 //
-
 import Foundation
 
 protocol MainScreenViewModelType {
     var refsOnPictures: Box<[URL]> { get }
+    var networkError: Box<Error?> { get }
     
     var titlesOfPictures: [String] { get }
     
