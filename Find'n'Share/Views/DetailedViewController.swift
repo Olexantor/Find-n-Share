@@ -107,8 +107,9 @@ final class DetailedViewController: UIViewController {
 // MARK: Setup share method
 
     @objc private func presentShareSheet() {
+        guard let image = largePictureImageView.image else { return }
         let shareSheetVC = UIActivityViewController(
-            activityItems: [largePictureImageView.image, viewModel.refOnPicture],
+            activityItems: [image, viewModel.refOnPicture],
             applicationActivities: nil
         )
         present(shareSheetVC, animated: true)
