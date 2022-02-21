@@ -4,7 +4,6 @@
 //
 //  Created by Александр on 20.02.2022.
 //
-
 import Foundation
 
 struct Picture {

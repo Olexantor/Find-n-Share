@@ -21,7 +21,7 @@ final class MainScreenViewController: UIViewController {
     }()
     
     private let searchController = UISearchController(
-    searchResultsController: nil
+        searchResultsController: nil
     )
     
     private let collectionView = UICollectionView(
@@ -57,13 +57,16 @@ final class MainScreenViewController: UIViewController {
             self?.collectionView.reloadData()
             self?.activityIndicator.stopAnimating()
         }
+        viewModel?.networkError.bind { [weak self] error in
+            guard let error = error else { return }
+            self?.showAlert(with: error)
+        }
     }
     
     private func setupActivityIndicator() {
         navigationController?.view.addSubview(activityIndicator)
         activityIndicator.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.center.equalToSuperview()
         }
     }
     
@@ -110,6 +113,19 @@ final class MainScreenViewController: UIViewController {
             maker.edges.equalToSuperview()
         }
     }
+    
+    // MARK: - Alerts
+    
+    private func showAlert(with message: Error) {
+        let alert = UIAlertController(
+            title: "Error!",
+            message: message.localizedDescription,
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
 }
 
 // MARK: - UICollectionViewDataSource methods
@@ -142,36 +158,36 @@ extension MainScreenViewController: UICollectionViewDataSource {
 
 extension MainScreenViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
-         _ collectionView: UICollectionView,
-         layout collectionViewLayout: UICollectionViewLayout,
-         sizeForItemAt indexPath: IndexPath
-     ) -> CGSize {
-         return CGSize(width: widthOfItem, height: widthOfItem)
-     }
-     
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        CGSize(width: widthOfItem, height: widthOfItem)
+    }
+    
     func collectionView(
-     _ collectionView: UICollectionView,
-     layout collectionViewLayout: UICollectionViewLayout,
-     insetForSectionAt section: Int
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
     ) -> UIEdgeInsets {
-         return sectionInsets
-     }
-     
+        sectionInsets
+    }
+    
     func collectionView(
-         _ collectionView: UICollectionView,
-         layout collectionViewLayout: UICollectionViewLayout,
-         minimumLineSpacingForSectionAt section: Int
-     ) -> CGFloat {
-         return sectionInsets.left
-     }
-     
-     func collectionView(
-         _ collectionView: UICollectionView,
-         layout collectionViewLayout: UICollectionViewLayout,
-         minimumInteritemSpacingForSectionAt section: Int
-     ) -> CGFloat {
-         return sectionInsets.left
-     }
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        sectionInsets.left
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        sectionInsets.left
+    }
 }
 
 // MARK: - UICollectionViewDelegate methods
@@ -186,7 +202,6 @@ extension MainScreenViewController: UICollectionViewDelegate {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
-
 // MARK: SearchBarDelegate
 
 extension MainScreenViewController: UISearchBarDelegate {

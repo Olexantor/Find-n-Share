@@ -4,26 +4,26 @@
 //
 //  Created by Александр on 19.02.2022.
 //
-
 import Foundation
 
 final class MainScreenViewModel: MainScreenViewModelType {
     var refsOnPictures: Box<[URL]> = Box([])
     var titlesOfPictures = [String]()
+    var networkError: Box<Error?> = Box(nil)
     private var selectedIndexPath: IndexPath?
     
     func numberOfItems() -> Int {
         refsOnPictures.value.count
-        }
+    }
     
     func fetchRefsOnPicturesWith(request: String) {
-        NetworkManager.shared.fetchLinksWith(query: request) { result in
+        NetworkManager.shared.fetchLinksWith(query: request) { [weak self] result in
             switch result {
             case .success(let picture):
-                self.refsOnPictures.value = picture.refsOnPictures
-                self.titlesOfPictures = picture.titlesOfPictures
+                self?.refsOnPictures.value = picture.refsOnPictures
+                self?.titlesOfPictures = picture.titlesOfPictures
             case .failure(let error):
-                print(error)
+                self?.networkError.value = error
             }
         }
     }

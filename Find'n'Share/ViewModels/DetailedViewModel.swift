@@ -4,7 +4,6 @@
 //
 //  Created by Александр on 20.02.2022.
 //
-
 import Foundation
 
 final class DetailedViewModel: DetailedViewModelType {
@@ -16,5 +15,3 @@ final class DetailedViewModel: DetailedViewModelType {
         self.titleOfPicture = titleOfPicture
     }
 }
-
-
