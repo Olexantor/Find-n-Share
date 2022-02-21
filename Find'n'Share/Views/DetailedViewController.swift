@@ -108,7 +108,7 @@ final class DetailedViewController: UIViewController {
 
     @objc private func presentShareSheet() {
         let shareSheetVC = UIActivityViewController(
-            activityItems: [largePictureImageView, viewModel.refOnPicture],
+            activityItems: [largePictureImageView.image, viewModel.refOnPicture],
             applicationActivities: nil
         )
         present(shareSheetVC, animated: true)
