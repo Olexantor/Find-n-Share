@@ -37,13 +37,6 @@ class NetworkManager {
                     let json = try JSONDecoder()
                         .decode(PictureModel.self, from: data)
                     guard let picture = Picture(data: json) else { return }
-//                    let imagesResults = json.imagesResults
-//                        .compactMap { image in
-//                        if let  url = URL(string: image.original) {
-//                            return url
-//                        }
-//                        return nil
-//                    }
                     completion(.success(picture))
                 }
                 catch {

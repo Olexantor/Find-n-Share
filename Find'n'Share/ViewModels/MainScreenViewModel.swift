@@ -19,7 +19,6 @@ final class MainScreenViewModel: MainScreenViewModelType {
     func fetchRefsOnPicturesWith(request: String) {
         NetworkManager.shared.fetchLinksWith(query: request) { result in
             switch result {
-                
             case .success(let picture):
                 self.refsOnPictures.value = picture.refsOnPictures
                 self.titlesOfPictures = picture.titlesOfPictures

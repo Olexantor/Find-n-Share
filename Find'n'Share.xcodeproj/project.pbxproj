@@ -84,12 +84,12 @@
 		1F11D08827BCEC6500C470A6 /* Find'n'Share */ = {
 			isa = PBXGroup;
 			children = (
-				1F95FE2427BE2D99002000D0 /* Services */,
+				1F11D09E27BCFA5300C470A6 /* Views */,
 				1F11D0A227BCFC4A00C470A6 /* Protocols */,
 				1F11D0A127BCFC3B00C470A6 /* ViewModels */,
+				1F95FE2427BE2D99002000D0 /* Services */,
 				1F11D0A027BCFC2A00C470A6 /* Models */,
 				1F11D09F27BCFA9F00C470A6 /* Supporting files */,
-				1F11D09E27BCFA5300C470A6 /* Views */,
 				1F11D09D27BCFA1500C470A6 /* Storyboards */,
 			);
 			path = "Find'n'Share";
