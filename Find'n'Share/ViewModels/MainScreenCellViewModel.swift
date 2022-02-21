@@ -6,7 +6,7 @@
 //
 import Foundation
 
-class MainScreenCellViewModel: MainScreenCellViewModelType {
+final class MainScreenCellViewModel: MainScreenCellViewModelType {
     var urlOfPicture: URL
 
     init(urlOfPicture: URL) {

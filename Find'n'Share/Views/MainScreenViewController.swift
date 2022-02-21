@@ -15,8 +15,7 @@ final class MainScreenViewController: UIViewController {
         let indicator = UIActivityIndicatorView()
         indicator.color = secondaryColor
         indicator.hidesWhenStopped = true
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        let transfrom = CGAffineTransform.init(scaleX: 5, y: 5)
+        let transfrom = CGAffineTransform.init(scaleX: 3, y: 3)
         indicator.transform = transfrom
         return indicator
     }()
@@ -178,7 +177,14 @@ extension MainScreenViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - UICollectionViewDelegate methods
 
 extension MainScreenViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel else { return }
+        viewModel.selectRow(atIndexPath: indexPath)
+        guard let detailedViewModel = viewModel.viewModelForSelectedRow() else { return }
+        let detailedVC = DetailedViewController(viewModel: detailedViewModel)
+        present(detailedVC, animated: true)
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
 }
 
 // MARK: SearchBarDelegate

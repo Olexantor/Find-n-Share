@@ -19,4 +19,6 @@ protocol MainScreenViewModelType {
     func cellViewModel(forIndexPath indexPath: IndexPath) -> MainScreenCellViewModelType?
     
     func selectRow(atIndexPath indexPath: IndexPath)
+    
+    func viewModelForSelectedRow() -> DetailedViewModelType?
 }
