@@ -59,6 +59,7 @@ final class MainScreenViewController: UIViewController {
         }
         viewModel?.networkError.bind { [weak self] error in
             guard let error = error else { return }
+            self?.activityIndicator.stopAnimating()
             self?.showAlert(with: error)
         }
     }
